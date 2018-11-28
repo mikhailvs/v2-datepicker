@@ -138,6 +138,7 @@
   margin: 5px 0px;
   padding: 0;
   overflow: hidden;
+  z-index: 50000;
 }
 .v2-picker-panel {
   position: relative;
