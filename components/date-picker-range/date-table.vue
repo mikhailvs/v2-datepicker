@@ -44,11 +44,7 @@
             },
             options: {
                 type: Object,
-                default: () => {
-                    return {
-                        cellContent: d => d.getDate()
-                    };
-                }
+                default: () => ({})
             }
         },
 
@@ -157,7 +153,7 @@
                         const d = nextDate(panelStartDate, index);
                         const time = d.getTime();
                         cell.index = index;
-                        cell.text = () => this.options.cellContent(d);
+                        cell.text = () => (this.options.cellContent || ((_) => _.getDate()))(d);
                         cell.type = time < minTime ? 'prev-month' : time > maxTime ? 'next-month' : 'normal';
                         cell.isToday = time === getClearHoursTime(Date.now());
                         cell.isSelected = isDate(this.selectedDate) ? time === getClearHoursTime(new Date(this.selectedDate).getTime()) : false;
