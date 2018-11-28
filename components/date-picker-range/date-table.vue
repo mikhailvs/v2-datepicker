@@ -10,7 +10,7 @@
                     :class="getCellClasses(cell)"
                     :data-index="cell.index"
                 >
-                <span v-text="cell.text" :data-index="cell.index"></span>
+                <span v-html="cell.text()" :data-index="cell.index"></span>
             </span>
         </div>
     </div>
@@ -45,7 +45,9 @@
             options: {
                 type: Object,
                 default: () => {
-                    return {};
+                    return {
+                        cellContent: d => d.getDate()
+                    };
                 }
             }
         },
@@ -155,7 +157,7 @@
                         const d = nextDate(panelStartDate, index);
                         const time = d.getTime();
                         cell.index = index;
-                        cell.text = d.getDate();
+                        cell.text = () => this.options.cellContent(d);
                         cell.type = time < minTime ? 'prev-month' : time > maxTime ? 'next-month' : 'normal';
                         cell.isToday = time === getClearHoursTime(Date.now());
                         cell.isSelected = isDate(this.selectedDate) ? time === getClearHoursTime(new Date(this.selectedDate).getTime()) : false;
